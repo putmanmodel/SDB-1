@@ -1,0 +1,41 @@
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International  
+(CC BY-NC-ND 4.0)
+
+This work © 2025 Stephen A. Putman.
+
+This specification is made available under the terms of the Creative Commons 
+Attribution-NonCommercial-NoDerivatives 4.0 International License.
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+
+Under the following terms:
+- Attribution — You must give appropriate credit.
+- NonCommercial — You may not use the material for commercial purposes.
+- NoDerivatives — If you remix, transform, or build upon the material, you may 
+  not distribute the modified material.
+
+No additional restrictions — You may not apply legal terms or technological 
+measures that legally restrict others from doing anything this license permits.
+
+Full license text: https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+---------------------------------------------------------------------------
+AS-IS / NO WARRANTY / NO LIABILITY CLAUSE
+---------------------------------------------------------------------------
+
+THIS SPECIFICATION IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+OR IMPLIED. THE AUTHOR MAKES NO REPRESENTATIONS ABOUT THE SUITABILITY, FITNESS, 
+OR SAFETY OF THIS SPECIFICATION FOR ANY PURPOSE.
+
+THIS DOCUMENT IS NOT A CERTIFIED SAFETY STANDARD. IT IS A RESEARCH-LEVEL 
+CONCEPTUAL PRIMITIVE AND MUST BE VALIDATED, TESTED, AND CERTIFIED BY ANY 
+IMPLEMENTER BEFORE USE IN ANY SAFETY-CRITICAL OR COMMERCIAL CONTEXT.
+
+THE AUTHOR SHALL NOT BE LIABLE FOR ANY LOSS, DAMAGE, OR HARM ARISING FROM THE 
+USE, MISUSE, OR RELIANCE UPON THIS SPECIFICATION, WHETHER IN CONTRACT, TORT, 
+OR ANY OTHER LEGAL THEORY.
+
+Use at your own risk. Validation and compliance with domain-specific standards 
+(e.g., ISO 26262, IEC 61508, DO-178C, etc.) are the sole responsibility of the 
+implementer.
