@@ -5,18 +5,20 @@ Applies to: Any system with at least two independent state estimators (e.g., per
 
 This file shows a minimal SDB-1 style adapter in pseudocode.
 It illustrates how to:
-	•	gather estimates from multiple channels,
-	•	compute disagreement,
-	•	stage interventions,
-	•	choose a reversible action,
-	•	and log the event for later analysis.
+- gather estimates from multiple channels,
+- compute disagreement,
+- stage interventions,
+- choose a reversible action,
+- and log the event for later analysis.
 
 All thresholds, timers, and policies are illustrative only.
+This adapter enforces the invariant defined in README.md under estimator disagreement.
 
 ⸻
 
 Interfaces
 
+```
 Estimator:
     estimate_state()  -> StateEstimate
 
@@ -37,23 +39,25 @@ Planner:
 Action:
     reversible        // bool, precomputed or tagged
     description       // string or enum
-
+```
 
 ⸻
 
 Configuration (Example Only)
 
+```
 THRESH_LOW          // lower disagreement threshold
 THRESH_HIGH         // upper disagreement threshold
 HYSTERESIS_FRAMES   // frames to remain in raised state
 SLOWDOWN_FACTOR     // scale factor for velocity/aggression
 MAX_LOG_RATE_HZ     // optional log throttling
-
+```
 
 ⸻
 
 Disagreement Metric (Example)
 
+```
 function compute_disagreement(estimates):
     // estimates: list of StateEstimate
     // This is intentionally simple. Real systems should use
@@ -85,32 +89,37 @@ function compute_disagreement(estimates):
     normalized_time = clamp(avg_time_gap / 1000.0, 0.0, 1.0)
 
     return clamp(avg_conf_gap * 0.7 + normalized_time * 0.3, 0.0, 1.0)
-
+```
 
 ⸻
 
 Risk Stage Enumeration
 
+```
 enum RiskStage:
     NORMAL          // no special handling
     CAUTIOUS        // slowdown, extra sampling
     BIND_ACTIVE     // SafetyBind fully engaged
+```
 
 
 ⸻
 
 SafetyBind Adapter State
 
+```
 struct SDB1State:
     current_stage          // RiskStage
     frames_above_high      // int
     frames_below_low       // int
+```
 
 
 ⸻
 
 Core SDB-1 Loop (Pseudocode)
 
+```
 function sdb1_step(perception, reflex, planner, context, sdb_state):
 
     // 1. Gather estimates
@@ -159,19 +168,21 @@ function sdb1_step(perception, reflex, planner, context, sdb_state):
 
     if sdb_state.current_stage == RiskStage.BIND_ACTIVE:
         // full SafetyBind
-        if context.domainAllowsPause() and not context.is_freeze_unsafe():
+		if context.domainAllowsPause() and not context.is_freeze_unsafe():
             action = make_safe_pause_action()
         else:
             action = safest_reversible_action(context)
 
         log_sdb_event("BIND_ACTIVE", delta, estimates, action, context)
         return action
+```
 
 
 ⸻
 
 Helper: Slowdown and Reversible Action (Sketch)
 
+```
 function apply_slowdown(action, context, factor):
     // Example: scale velocity or intensity
     action.velocity = clamp(action.velocity * factor,
@@ -192,12 +203,13 @@ function safest_reversible_action(context):
         return make_controlled_slowdown_action()
     else:
         return make_safe_pause_action()
-
+```
 
 ⸻
 
 Logging (Minimal Fields)
 
+```
 function log_sdb_event(stage, delta, estimates, action, context):
     // Implementers should integrate with their real logging system.
     // At minimum, record:
@@ -212,12 +224,12 @@ function log_sdb_event(stage, delta, estimates, action, context):
     }
 
     write_log("SDB1_EVENT", log_record)
-
+```
 
 ⸻
 
 Notes
-	•	This pseudocode is intentionally conservative and incomplete.
-	•	All thresholds, timers, and policies must be tuned to the target domain.
-	•	Freeze or pause is never assumed safe; use domainAllowsPause() and explicit checks.
-	•	This adapter is for research, prototyping, and simulation only — it does not replace a certified safety framework.
+- This pseudocode is intentionally conservative and incomplete.
+- All thresholds, timers, and policies must be tuned to the target domain.
+- Freeze or pause is never assumed safe; use `domainAllowsPause()` and explicit checks.
+- This adapter is for research, prototyping, and simulation only — it does not replace a certified safety framework.
